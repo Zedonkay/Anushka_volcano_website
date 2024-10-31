@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volcanic Dating App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <div class="volcano-container">
+            <div class="volcano">
+                <!-- Crater -->
+                <div class="crater"></div>
+                
+                <!-- Lava Streams -->
+                <div class="lava-stream"></div>
+                <div class="lava-stream"></div>
+                <div class="lava-stream"></div>
+                
+                <!-- Explosion Container -->
+                <div id="explosionContainer" class="explosion-container hidden">
+                    <div class="explosion-bubble">
+                        <div class="explosion-cloud"></div>
+                        <div id="explosionMessage" class="explosion-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Buttons -->
+            <button id="messageButton" class="action-button message-button">
+                <span>❤️</span>
+            </button>
+            <button id="dateButton" class="action-button date-button">
+                <span>⭐</span>
+            </button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
