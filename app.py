@@ -1,21 +1,8 @@
 from flask import Flask, render_template, jsonify
 import random
+import json
 
 app = Flask(__name__)
-
-MESSAGES = [
-    "You make my heart erupt with joy! 💝",
-    "I lava you more each day! 🌋",
-    "Our love is volcanic! ❤️",
-    "You light up my world like magma! ✨"
-]
-
-DATE_IDEAS = [
-    "Dinner Under the Stars ⭐",
-    "Virtual Stargazing Date 🔭",
-    "Cooking Together Online 👩‍🍳",
-    "Watch a Sunset Livestream 🌅"
-]
 
 @app.route('/')
 def home():
@@ -23,11 +10,15 @@ def home():
 
 @app.route('/api/message')
 def get_message():
-    return jsonify({'message': random.choice(MESSAGES)})
+    with open('data/messages.json', 'r') as f:
+        messages = json.load(f)
+    return jsonify({'message': random.choice(messages)})
 
 @app.route('/api/date-idea')
 def get_date_idea():
-    return jsonify({'idea': random.choice(DATE_IDEAS)})
+    with open('data/ideas.json', 'r') as f:
+        date_ideas = json.load(f)
+    return jsonify({'idea': random.choice(date_ideas)})
 
 if __name__ == '__main__':
     app.run(debug=True)
