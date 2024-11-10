@@ -37,5 +37,11 @@
         </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        console.log('Direct script test');
+        document.getElementById('messageButton').addEventListener('click', () => {
+            console.log('Direct click test');
+        });
+    </script>
 </body>
 </html>
