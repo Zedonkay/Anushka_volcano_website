@@ -69,12 +69,13 @@ body {
 /* Explosion container and effects */
 .explosion-container {
     position: absolute;
-    top: 5%;  /* Adjust this value to position the explosion */
+    top: 5%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
     opacity: 0;
-    transition: opacity 0.3s ease-out;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
 }
 
 .explosion-container.active {
@@ -90,30 +91,22 @@ body {
     white-space: nowrap;
     text-align: center;
     box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-    animation: messageFloat 3s ease-out forwards;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    animation: messageFloat 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-@keyframes messageFloat {
-    0% {
-        transform: translateY(0px) scale(0.2);
-        opacity: 0;
-    }
-    20% {
-        opacity: 0.5;
-        transform: translateY(-20px) scale(0.6);
-    }
-    50% {
-        opacity: 1;
-        transform: translateY(-40px) scale(1);
-    }
-    80% {
-        opacity: 1;
-        transform: translateY(-40px) scale(1);
-    }
-    100% {
-        transform: translateY(-40px) scale(0.8);
-        opacity: 0;
-    }
+.explosion-bubble {
+    animation: bubbleScale 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    transform-origin: center bottom;
+}
+
+.explosion-cloud {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 68, 68, 0.4), transparent 70%);
+    animation: glowPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 /* Crater effect */
@@ -127,6 +120,7 @@ body {
     background: #2a2a2a;
     border-radius: 50%;
     box-shadow: inset 0 5px 15px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
 }
 
 /* Action buttons */
@@ -138,7 +132,7 @@ body {
     border: none;
     background-color: rgba(255, 255, 255, 0.2);
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 5;
 }
 
@@ -157,36 +151,53 @@ body {
 }
 
 /* Animations */
-@keyframes floatUp {
+@keyframes messageFloat {
     0% {
-        transform: translateY(0) scale(0.5);
+        transform: translate3d(0, 0, 0) scale(0.2);
         opacity: 0;
     }
     20% {
+        opacity: 0.8;
+        transform: translate3d(0, -20px, 0) scale(0.8);
+    }
+    40% {
         opacity: 1;
+        transform: translate3d(0, -40px, 0) scale(1);
+    }
+    80% {
+        opacity: 1;
+        transform: translate3d(0, -40px, 0) scale(1);
     }
     100% {
-        transform: translateY(-100px) scale(1.5);
+        transform: translate3d(0, -40px, 0) scale(0.9);
         opacity: 0;
     }
 }
 
-@keyframes fadeInOut {
+@keyframes bubbleScale {
     0% {
-        opacity: 0;
-        transform: scale(0.5);
+        transform: scale(0.8);
     }
-    20% {
-        opacity: 1;
-        transform: scale(1);
+    40% {
+        transform: scale(1.1);
     }
-    80% {
-        opacity: 1;
+    60% {
         transform: scale(1);
     }
     100% {
-        opacity: 0;
-        transform: scale(0.8);
+        transform: scale(1);
+    }
+}
+
+@keyframes glowPulse {
+    0% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 0.4;
     }
 }
 
@@ -207,16 +218,12 @@ body {
     }
 }
 
-.hidden {
-    display: none;
-}
-
 /* Bubble effects */
 .bubble {
     position: absolute;
     background: radial-gradient(circle at 30% 30%, rgba(255, 68, 68, 0.8), rgba(255, 0, 0, 0.4));
     border-radius: 50%;
-    animation: bubble 2s ease-out forwards;
+    animation: bubble 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes bubble {
@@ -231,4 +238,8 @@ body {
         transform: scale(2) translateY(-100px);
         opacity: 0;
     }
+}
+
+.hidden {
+    display: none;
 }

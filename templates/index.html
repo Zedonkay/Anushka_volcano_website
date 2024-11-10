@@ -12,12 +12,10 @@
             <div class="volcano">
                 <!-- Crater -->
                 <div class="crater"></div>
-                
                 <!-- Lava Streams -->
                 <div class="lava-stream"></div>
                 <div class="lava-stream"></div>
                 <div class="lava-stream"></div>
-                
                 <!-- Explosion Container -->
                 <div id="explosionContainer" class="explosion-container">
                     <div class="explosion-bubble">
@@ -26,7 +24,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Interactive Buttons -->
             <button id="messageButton" class="action-button message-button">
                 <span>❤️</span>
@@ -37,11 +34,5 @@
         </div>
     </div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <script>
-        console.log('Direct script test');
-        document.getElementById('messageButton').addEventListener('click', () => {
-            console.log('Direct click test');
-        });
-    </script>
 </body>
 </html>

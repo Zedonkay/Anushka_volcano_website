@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Script initialized');
   
-  // Get button elements by their IDs instead of class
+  // Get button elements by their IDs
   const messageButton = document.getElementById('messageButton');
   const dateButton = document.getElementById('dateButton');
   
@@ -10,49 +10,54 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('Date button:', dateButton);
 
   function showExplosion(message) {
-    console.log('Showing explosion with message:', message);
-    
-    // Create new explosion elements
-    const explosionContainer = document.createElement('div');
-    explosionContainer.className = 'explosion-container';
-    console.log('Created explosion container:', explosionContainer);
-    
-    const explosionBubble = document.createElement('div');
-    explosionBubble.className = 'explosion-bubble';
-    
-    const explosionCloud = document.createElement('div');
-    explosionCloud.className = 'explosion-cloud';
-    
-    const explosionMessage = document.createElement('div');
-    explosionMessage.className = 'explosion-message';
-    explosionMessage.textContent = message;
-    console.log('Created message element:', explosionMessage);
-    
-    // Build the explosion hierarchy
-    explosionBubble.appendChild(explosionCloud);
-    explosionBubble.appendChild(explosionMessage);
-    explosionContainer.appendChild(explosionBubble);
-    
-    // Get the volcano container and add the explosion
-    const volcanoContainer = document.querySelector('.volcano-container');
-    if (volcanoContainer) {
-        console.log('Found volcano container, adding explosion');
-        volcanoContainer.appendChild(explosionContainer);
-    } else {
-        console.error('Volcano container not found!');
-    }
-    
-    // Add a class to trigger animation
-    requestAnimationFrame(() => {
-        explosionContainer.classList.add('active');
-        console.log('Added active class to explosion');
-    });
-    
-    // Remove after animation
-    setTimeout(() => {
-        console.log('Removing explosion');
-        explosionContainer.remove();
-    }, 2000);
+      console.log('Showing explosion with message:', message);
+      
+      // Create new explosion elements with improved structure
+      const explosionContainer = document.createElement('div');
+      explosionContainer.className = 'explosion-container';
+      
+      const explosionBubble = document.createElement('div');
+      explosionBubble.className = 'explosion-bubble';
+      
+      const explosionCloud = document.createElement('div');
+      explosionCloud.className = 'explosion-cloud';
+      
+      const explosionMessage = document.createElement('div');
+      explosionMessage.className = 'explosion-message';
+      explosionMessage.textContent = message;
+      
+      // Build the explosion hierarchy
+      explosionBubble.appendChild(explosionCloud);
+      explosionBubble.appendChild(explosionMessage);
+      explosionContainer.appendChild(explosionBubble);
+      
+      // Get the volcano container and add the explosion
+      const volcanoContainer = document.querySelector('.volcano-container');
+      if (volcanoContainer) {
+          // Remove any existing explosion containers
+          const existingExplosions = volcanoContainer.querySelectorAll('.explosion-container');
+          existingExplosions.forEach(explosion => explosion.remove());
+          
+          // Add the new explosion
+          volcanoContainer.appendChild(explosionContainer);
+          
+          // Trigger animation on next frame for smooth transition
+          requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                  explosionContainer.classList.add('active');
+              });
+          });
+          
+          // Remove after animation completes
+          setTimeout(() => {
+              explosionContainer.style.opacity = '0';
+              setTimeout(() => {
+                  explosionContainer.remove();
+              }, 500); // Additional delay for fade out
+          }, 1500); // Adjusted to account for the new animation duration
+      } else {
+          console.error('Volcano container not found!');
+      }
   }
 
   // Add click handler for message button
@@ -81,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   });
 
-  // Crater bubble effect
+  // Crater bubble effect with improved timing
   function createCraterBubbles() {
       const crater = document.querySelector('.crater');
       if (!crater) {
@@ -98,11 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
       
       crater.appendChild(bubble);
       
-      setTimeout(() => {
+      // Bubble will be removed by its animation end
+      bubble.addEventListener('animationend', () => {
           bubble.remove();
-      }, 2000);
+      });
   }
 
-  // Start crater bubbles
+  // Start crater bubbles with a more natural interval
   setInterval(createCraterBubbles, 500);
 });
