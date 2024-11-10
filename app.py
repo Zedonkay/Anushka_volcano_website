@@ -3,7 +3,7 @@ import random
 import json
 import os
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='.')
 
 # Ensure the app can find the data files
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
